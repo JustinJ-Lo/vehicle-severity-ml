@@ -12,6 +12,8 @@ Using the Kaggle US Accidents dataset (2016-2023), which has 7.8M records. That'
 - Severity 3: 16%
 - Severity 4: 2%
 
+<img src="figures/severity_distribution.png" width="700" />
+
 Because of this imbalance, accuracy alone is misleading. I'm tracking macro-F1 and balanced accuracy instead.
 
 ## What's here
@@ -26,6 +28,8 @@ Because of this imbalance, accuracy alone is misleading. I'm tracking macro-F1 a
 - Accidents by time of day
 - Top states (queried from full dataset)
 - Yearly trends (also from full dataset)
+
+<img src="figures/accidents_by_hour.png" width="700" />
 
 **Preprocessing**
 - Drop high-missingness columns and text fields
@@ -67,6 +71,8 @@ Both tuned on macro-F1 with 3-fold CV.
 | Random Forest | 0.86 | 0.61 | 0.65 |
 | XGBoost | 0.87 | 0.52 | 0.59 |
 
+<img src="figures/confusion_matrix_RF.png" width="700" />
+
 XGBoost has slightly higher accuracy, but Random Forest does better on balanced accuracy and macro-F1. If you care about catching minority classes (Severity 1 and 4), Random Forest is the safer bet.
 
 **Best CV scores (3-fold):**
@@ -79,6 +85,19 @@ XGBoost has slightly higher accuracy, but Random Forest does better on balanced 
 - Both ensembles beat the baselines by a lot, especially on balanced metrics
 - Models still under-predict Severity 4, often confusing it with 2 or 3. If missing severe accidents has a high real-world cost, you'd want to adjust thresholds or add more class weighting
 - Time of day, weather conditions (visibility proxies), and location are the strongest signals
+
+<img src="figures/feature_importance.png" width="700" />
+
+<details>
+  <summary><b>More EDA (optional)</b></summary>
+
+  <br/>
+  Correlations among numeric features (sample) and severity proportions by hour-of-day.
+
+  <br/>
+  <img src="figures/correlation_heatmap.png" width="700" />
+  <img src="figures/prop_accidents_hourly.png" width="700" />
+</details>
 
 ## Running this
 
